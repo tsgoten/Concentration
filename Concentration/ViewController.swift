@@ -12,7 +12,13 @@ class ViewController: UIViewController {
     
     // lazy: is not used until everything is initialized. And lazy counts as being initialized
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1)/2) //Using the free init as long as all vars are initialized
-    
+    var emojiThemes = [String:[String]]()
+    var emojiChoice = [""]
+    func chooseTheme(){
+        emojiThemes["halloween"] = ["👻","🎃", "🐣", "🦄", "🙈", "⛄️", "⚡️","🍤"]
+        emojiChoice = emojiThemes["halloween"]!
+    }
+
     //Instance variable in Swift are called properties
     //all properties must be initialized
     //var flipcount: Int = 0 //This option is completely unnecessary Swift can infer it
@@ -21,6 +27,12 @@ class ViewController: UIViewController {
         didSet {
             flipCountLabel.text = "Flips: \(flipcount)"
         }
+    }
+    
+    @IBAction func newGameButton() {
+        flipcount = 0
+        game.restart()
+        updateViewFromModel()
     }
     
     //When connecting from the StoryBoard, Action creates a method and Outlet creates a property
@@ -64,7 +76,8 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiChoice = ["👻","🎃", "🐣", "🦄", "🙈", "⛄️"]
+    
+   
     
     // This is a dictionary [Int:String]
     // Same thing as var emoji = Dictionary<Int,String>()
