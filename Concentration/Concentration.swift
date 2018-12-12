@@ -19,6 +19,8 @@ class Concentration {
     
     var indexOfOneAndOnlyFaceUpCard: Int?
     
+    
+    // MARK: Handle Card Touch Behavior
     func chooseCard(at index: Int){
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
@@ -65,9 +67,9 @@ class Concentration {
     
     func shuffleCards() {
         var count = 0
-//        for card in cards {
-//            print(card.identifier)
-//        }
+        //        for card in cards {
+        //            print(card.identifier)
+        //        }
         while count<20 {
             let randomIndex = Int(arc4random_uniform(UInt32(cards.count)))
             let cardRemoved = Card(originalCard: cards.remove(at: randomIndex))
@@ -75,9 +77,9 @@ class Concentration {
             count += 1
         }
         print("cards count: \(cards.count)")
-//        for card in cards {
-//            print(card.identifier)
-//        }
+        //        for card in cards {
+        //            print(card.identifier)
+        //        }
     }
     func cardWasFlipped(cardFlipped card: Card){
         if !card.isMatched {
