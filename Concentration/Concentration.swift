@@ -10,8 +10,12 @@ import Foundation
 
 class Concentration {
     
-    //var cards = Array<Card>()
     var cards = [Card]()
+    var emoji = [Int:String]()
+    var emojiThemes = [String:[String]]()
+    var emojiChoice: [String]
+    var chosenEmojiThemeSaved: String
+    var flipcount: Int
     
     var indexOfOneAndOnlyFaceUpCard: Int?
     
@@ -33,27 +37,65 @@ class Concentration {
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = index
             }
-            
         }
+        cardWasFlipped(cardFlipped: cards[index])
     }
     
     func restart() {
+        flipcount = 0
         let numberOfPairsOfCards = cards.count/2
-        cards = [Card]()
-        for _ in 0...numberOfPairsOfCards {
+        cards.removeAll()
+        for _ in 0...numberOfPairsOfCards-1 {
             let card = Card()
             cards += [card, card]
+        }
+        emojiChoice = emojiThemes[chosenEmojiThemeSaved]!
+        shuffleCards()
+    }
+    
+    func emoji(for card: Card) -> String {
+        if emoji[card.identifier] == nil, emojiChoice.count > 0{
+            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoice.count)))
+            emoji[card.identifier] = emojiChoice.remove(at: randomIndex)
+            print(emoji.count)
+        }
+        print("cards count: \(cards.count)")
+        return emoji[card.identifier] ?? "?"
+    }
+    
+    func shuffleCards() {
+        var count = 0
+//        for card in cards {
+//            print(card.identifier)
+//        }
+        while count<20 {
+            let randomIndex = Int(arc4random_uniform(UInt32(cards.count)))
+            let cardRemoved = Card(originalCard: cards.remove(at: randomIndex))
+            cards += [cardRemoved]
+            count += 1
+        }
+        print("cards count: \(cards.count)")
+//        for card in cards {
+//            print(card.identifier)
+//        }
+    }
+    func cardWasFlipped(cardFlipped card: Card){
+        if !card.isMatched {
+            flipcount += 1
         }
     }
     
-    init(numberOfPairsOfCards: Int) {
-        for _ in 0...numberOfPairsOfCards {
+    init(numberOfPairsOfCards: Int, chosenEmojiTheme: String) {
+        flipcount = 0
+        emojiThemes["halloween"] = ["👻","🎃", "🐣", "🦄", "🙈", "⛄️", "⚡️","🍤"]
+        
+        for _ in 0...numberOfPairsOfCards-1 {
             let card = Card()
             cards += [card, card]
-//            cards.append(card)
-//            cards.append(card)
         }
-        
+        chosenEmojiThemeSaved = chosenEmojiTheme
+        emojiChoice = emojiThemes[chosenEmojiThemeSaved]!
+        shuffleCards()
         // TODO: Shuffle the cards
     }
     

@@ -31,6 +31,11 @@ struct Card {
     init() {
         self.identifier = Card.getUniqueIdentifier()
     }
+    init(originalCard: Card) {
+        self.identifier = originalCard.identifier
+        self.isFaceUp = originalCard.isFaceUp
+        self.isMatched = originalCard.isMatched
+    }
     //we do not add emojis in this class
     
 }
