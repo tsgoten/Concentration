@@ -11,21 +11,23 @@ import UIKit
 class ViewController: UIViewController {
     
     // lazy: is not used until everything is initialized. And lazy counts as being initialized
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1)/2, chosenEmojiTheme: "halloween") //Using the free init as long as all vars are initialized
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards, chosenEmojiTheme: "halloween") //Using the free init as long as all vars are initialized
     //Instance variable in Swift are called properties
     //all properties must be initialized
     //var flipcount: Int = 0 //This option is completely unnecessary Swift can infer it
-    
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count + 1)/2
+    }
     @IBAction func newGameButton() {
         game.restart()
         updateViewFromModel()
     }
     
     //When connecting from the StoryBoard, Action creates a method and Outlet creates a property
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
     // Similar to Array<UIButton>
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     // the @IBAction puts the little circle on the left. XCode, not part of Swift
     // func is the keyword, func can be outside of the class as well
     // () has the list of arguments
@@ -33,7 +35,7 @@ class ViewController: UIViewController {
     // Every argument has a name with it; An external name and an internal name
     // if it had -> Int it means it returns an int
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
             print("card identifier = \(game.cards[cardNumber])")
             game.chooseCard(at: cardNumber)
@@ -47,7 +49,7 @@ class ViewController: UIViewController {
         //flipCard(withEmoji: "👻", on: sender)
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         // Cards
         for index in cardButtons.indices {
             let button = cardButtons[index]

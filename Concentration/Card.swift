@@ -21,8 +21,8 @@ struct Card {
     
     //special
     //sort of like Utility function, tied to the Card type, not the card itself
-    static var identifierFactory = 0
-    static func getUniqueIdentifier() -> Int {
+    private static var identifierFactory = 0
+    private static func getUniqueIdentifier() -> Int {
         identifierFactory += 1
         return identifierFactory
     }
