@@ -69,11 +69,10 @@ class Concentration {
         emojiChoice = emojiThemes[chosenEmojiThemeSaved]!
         shuffleCards()
     }
-    
+
     func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoice.count > 0{
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoice.count)))
-            emoji[card.identifier] = emojiChoice.remove(at: randomIndex)
+            emoji[card.identifier] = emojiChoice.remove(at: emojiChoice.count.arc4random)
             print(emoji.count)
         }
         print("cards count: \(cards.count)")
@@ -86,8 +85,7 @@ class Concentration {
         //            print(card.identifier)
         //        }
         while count<20 {
-            let randomIndex = Int(arc4random_uniform(UInt32(cards.count)))
-            let cardRemoved = Card(originalCard: cards.remove(at: randomIndex))
+            let cardRemoved = Card(originalCard: cards.remove(at: cards.count.arc4random))
             cards += [cardRemoved]
             count += 1
         }
@@ -116,4 +114,20 @@ class Concentration {
         // TODO: Shuffle the cards
     }
     
+}
+
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        }
+        else {
+            if self < 0 {
+                return -Int(arc4random_uniform(UInt32(abs(self))))
+            }
+            else {
+                return 0
+            }
+        }
+    }
 }
