@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Concentration {
+struct Concentration {
     
     private(set) var cards = [Card]()
     var emoji = [Int:String]()
@@ -41,7 +41,7 @@ class Concentration {
     
     
     // MARK: Handle Card Touch Behavior
-    func chooseCard(at index: Int){
+    mutating func chooseCard(at index: Int){
         assert(cards.indices.contains(index), "you cuckold")
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
@@ -58,7 +58,7 @@ class Concentration {
         cardWasFlipped(cardFlipped: cards[index])
     }
     
-    func restart() {
+    mutating func restart() {
         flipcount = 0
         let numberOfPairsOfCards = cards.count/2
         cards.removeAll()
